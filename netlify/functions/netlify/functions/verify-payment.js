@@ -1,7 +1,18 @@
 const crypto = require("crypto");
 
 exports.handler = async (event, context) => {
-  try {
+
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "POST, GET, OPTIONS"
+      },
+      body: "Preflight OK"
+    };
+  }
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       JSON.parse(event.body);
 
